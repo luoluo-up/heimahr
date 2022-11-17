@@ -58,14 +58,14 @@ export default {
           trigger: 'blur'
 
         }],
-        // required只能检查 null "" undefined
+        // required只能检测 null undefined ""
         isAgree: [{
           validator: (rule, value, callback) => {
-            // rule规则
-            // value检查的数据 true/false
-            // callback 函数 执行这个函数
-            // 成功执行callback 失败也执行callback(错误对象 new Error(错误信息))
-            value ? callback() : callback(new Error('没有勾选用户平台协议'))
+            // rule校验规则
+            // value 校验的值
+            // callback 函数 - promise resolve reject
+            // callback() callback(new Error(错误信息))
+            value ? callback() : callback(new Error('您必须勾选用户的使用协议'))
           }
         }]
       }
