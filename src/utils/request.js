@@ -37,7 +37,7 @@ service.interceptors.response.use((response) => {
     await store.dispatch('user/logout') // 调用action 退出登录
     //  主动跳到登录页
     router.push('/login') // 跳转到登录页
-    return
+    return Promise.reject(error)
   }
   // error.message
   Message({ type: 'error', message: error.message })
