@@ -27,7 +27,7 @@
               <el-form-item label="手机" prop="mobile">
                 <el-input
                   v-model="userInfo.mobile"
-                  :disabled="$route.params.id"
+                  :disabled="!!$route.params.id"
                   size="mini"
                   class="inputW"
                 />
