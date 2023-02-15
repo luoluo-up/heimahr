@@ -6,13 +6,14 @@
         <div class="panel">
           <!-- 个人信息 -->
           <div class="user-info">
-            <img class="avatar" src="../../assets/common/defaultHead.png" alt="">
+            <img v-if="avatar" class="avatar" :src="avatar" alt="">
+            <span v-else class="username">{{ name && name.charAt(0) }}</span>
             <div class="company-info">
               <div class="title">
                 江苏传智播客教育科技股份有限公司
                 <span>体验版</span>
               </div>
-              <div class="depart">庆山 ｜ 传智播客-总裁办</div>
+              <div class="depart">{{ name }} ｜ {{ company }}-{{ departmentName }}</div>
             </div>
           </div>
           <!-- 代办 -->
@@ -270,9 +271,15 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     CountTo
+  },
+  // 计算属性
+  computed: {
+    // 将getters中的四个属性映射到计算属性中- 指向
+    ...mapGetters(['avatar', 'name', 'company', 'departmentName'])
   }
 }
 </script>
@@ -359,6 +366,16 @@ export default {
           line-height: 48px;
           text-align: center;
         }
+        .username {
+           width: 30px;
+           height: 30px;
+           text-align: center;
+           line-height: 30px;
+           border-radius: 50%;
+           background: #04c9be;
+           color: #fff;
+           margin-right: 4px;
+         }
         .company-info {
           margin-left: 10px;
           height: 48px;
