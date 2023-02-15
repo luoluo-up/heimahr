@@ -108,7 +108,11 @@
             <div class="chart-info">
               <div class="info-main">
                 <span>申报人数</span>
-                <span>223</span>
+                <count-to
+                  :start-val="0"
+                  :end-val="223"
+                  duration="1000"
+                />
 
               </div>
               <div class="info-list">
