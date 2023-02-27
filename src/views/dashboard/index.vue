@@ -281,9 +281,67 @@ export default {
     // 将getters中的四个属性映射到计算属性中- 指向
     ...mapGetters(['avatar', 'name', 'company', 'departmentName'])
   },
+  watch: {
+    homeData() {
+      console.log(this.homeData)
+      // 设置图表
+      this.social.setOption({
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.homeData.socialInsurance?.xAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: this.homeData.socialInsurance?.yAxis,
+            type: 'line',
+            areaStyle: {
+              color: '#04c9be' // 填充颜色
+            },
+            lineStyle: {
+              color: '#04c9be' // 线的颜色
+            }
+          }
+        ]
+      })
+      this.provident.setOption({
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.homeData.providentFund?.xAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: this.homeData.providentFund?.yAxis,
+            type: 'line',
+            areaStyle: {
+              color: '#04c9be' // 填充颜色
+            },
+            lineStyle: {
+              color: '#04c9be' // 线的颜色
+            }
+          }
+        ]
+      })
+    }
+  },
+
   created() {
     this.getHomeData()
     this.getMessageList()
+  },
+  mounted() {
+    // 获取展示的数据 设置给图表
+    // 监听homeData的变化
+    this.social = echarts.init(this.$refs.social) // 初始化echart
+    // data中没有声明 不是响应式
+    this.provident = echarts.init(this.$refs.provident)
   },
   methods: {
     async getHomeData() {
