@@ -7,7 +7,7 @@
           <!-- 个人信息 -->
           <div class="user-info">
             <img v-if="avatar" class="avatar" :src="avatar" alt="">
-            <span v-else class="username">{{ name && name.charAt(0) }}</span>
+            <span v-else class="username">{{ name?.charAt(0) }}</span>
             <div class="company-info">
               <div class="title">
                 江苏传智播客教育科技股份有限公司
@@ -20,7 +20,7 @@
           <div class="todo-list">
             <div class="todo-item">
               <span>组织总人数</span>
-              <!-- 起始值 终点值  滚动时间 -->
+              <!-- 起始值 终点值 动画时间 -->
               <count-to
                 :start-val="0"
                 :end-val="homeData.employeeTotal"
@@ -47,9 +47,10 @@
               <span>待入职</span>
               <count-to
                 :start-val="0"
-                :end-val="homeData.contractSignTotal"
+                :end-val="homeData.toBeEmployed"
                 :duration="1000"
-              />            </div>
+              />
+            </div>
             <div class="todo-item">
               <span>本月待转正</span>
               <count-to
@@ -109,9 +110,10 @@
             <div class="chart-info">
               <div class="info-main">
                 <span>申报人数</span>
+                <!-- homeData: {} -->
                 <count-to
                   :start-val="0"
-                  :end-val="homeData.socialInsurance.declarationTotal"
+                  :end-val="homeData.socialInsurance?.declarationTotal"
                   :duration="1000"
                 />
 
@@ -121,7 +123,7 @@
                   <span>待申报(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.socialInsurance.toDeclareTotal"
+                    :end-val="homeData.socialInsurance?.toDeclareTotal"
                     :duration="1000"
                   />
                 </div>
@@ -129,7 +131,7 @@
                   <span>申报中(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.socialInsurance.declaringTotal"
+                    :end-val="homeData.socialInsurance?.declaringTotal"
                     :duration="1000"
                   />
                 </div>
@@ -137,7 +139,7 @@
                   <span>已申报(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.socialInsurance.declaredTotal"
+                    :end-val="homeData.socialInsurance?.declaredTotal"
                     :duration="1000"
                   />
                 </div>
@@ -145,6 +147,7 @@
             </div>
             <div class="chart">
               <!-- 图表 -->
+              <div ref="social" style=" width: 100%; height:100% " />
             </div>
           </div>
         </div>
@@ -157,7 +160,7 @@
                 <span>申报人数</span>
                 <count-to
                   :start-val="0"
-                  :end-val="homeData.providentFund.declarationTotal"
+                  :end-val="homeData.providentFund?.declarationTotal"
                   :duration="1000"
                 />
               </div>
@@ -166,7 +169,7 @@
                   <span>待申报(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.providentFund.toDeclareTotal"
+                    :end-val="homeData.providentFund?.toDeclareTotal"
                     :duration="1000"
                   />
                 </div>
@@ -174,7 +177,7 @@
                   <span>申报中(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.providentFund.declaringTotal"
+                    :end-val="homeData.providentFund?.declaringTotal"
                     :duration="1000"
                   />
                 </div>
@@ -182,7 +185,7 @@
                   <span>已申报(人)</span>
                   <count-to
                     :start-val="0"
-                    :end-val="homeData.providentFund.declaredTotal"
+                    :end-val="homeData.providentFund?.declaredTotal"
                     :duration="1000"
                   />
                 </div>
@@ -190,6 +193,7 @@
             </div>
             <div class="chart">
               <!-- 图表 -->
+              <div ref="provident" style=" width: 100%; height:100% " />
             </div>
           </div>
         </div>
@@ -232,7 +236,7 @@
         <div class="panel">
           <div class="panel-title">通知公告</div>
           <div class="information-list">
-            <div v-for="(item, index) in list" :key="index" class="information-list-item">
+            <div v-for="(item,index) in list" :key="index" class="information-list-item">
               <img :src="item.icon" alt="">
               <div>
                 <p>
@@ -252,6 +256,16 @@
 import CountTo from 'vue-count-to'
 import { mapGetters } from 'vuex'
 import { getHomeData, getMessageList } from '@/api/home'
+// import * as echarts from 'echarts' // 引入所有的echarts
+import * as echarts from 'echarts/core' // 引入核心包
+import { LineChart } from 'echarts/charts' // 引入折线图
+import { GridComponent } from 'echarts/components' // 引入组件
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([
+  LineChart,
+  GridComponent,
+  CanvasRenderer
+])
 export default {
   components: {
     CountTo
@@ -294,6 +308,7 @@ export default {
  ::v-deep .el-calendar-table__row td,::v-deep .el-calendar-table tr td:first-child, ::v-deep .el-calendar-table__row td.prev{
   border:none;
  }
+
 .date-content {
   height: 40px;
   text-align: center;
@@ -364,7 +379,7 @@ export default {
           line-height: 48px;
           text-align: center;
         }
-        .username {
+         .username {
            width: 30px;
            height: 30px;
            text-align: center;
