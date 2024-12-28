@@ -59,7 +59,7 @@
     "last 2 versions"
   ],
   "engines": {
-    "node": ">=8.9",
+    "node": ">16.14.0 <17",
     "npm": ">= 3.0.0"
   },
   "license": "MIT"
