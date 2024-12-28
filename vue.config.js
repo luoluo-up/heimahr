@@ -37,7 +37,7 @@ module.exports = {
       errors: true,
     },
     proxy: {
-      "/api": {
+      "/prod-api": {
         target: "https://heimahr.itheima.net",
       },
     },
